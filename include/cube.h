@@ -4,7 +4,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-// # include <mlx.h>
+# include "mlx.h"
 # include <math.h>
 
 # define TILE_SIZE 64
@@ -12,6 +12,7 @@
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
 # define FPS 30
+# define FOV (60.0 * PI / 180)
 
 
 # define TEXTURE_E "assets/1.xpm"
@@ -30,6 +31,8 @@ typedef struct s_parsing_data
 	int		c;
 	int		player_x;
 	int		player_y;
+	int		width;
+	int		height;
 }	t_parsing_data;
 
 typedef struct s_texture
@@ -67,6 +70,15 @@ typedef struct s_texture_pack
 	t_texture	*texture_n;
 }	t_texture_pack;
 
+typedef struct s_ray
+{
+	double	angle;
+	double	dist;
+	int		hit;
+	int		hit_direction;
+	int		texture_offset;
+}	t_ray;
+
 typedef struct s_data
 {
 	char			**map;
@@ -77,6 +89,7 @@ typedef struct s_data
 	int				height;
 	int				floor_color;
 	int				ceil_color;
+	t_ray			rays[WINDOW_WIDTH];
 }	t_data;
 
 // MLX
@@ -92,5 +105,13 @@ void	free_map(char **map);
 int		close_win(t_data *data);
 int		init_data(t_parsing_data data, t_data *out);
 int		init_player(t_parsing_data data, t_data *out);
+int		game_loop(t_data *data);
+void	destroy_data(t_data *data);
+
+
+int	error(char *msg);
+
+//utils
+int	is_out(int x, int y, t_data *data);
 
 #endif // CUBE_H

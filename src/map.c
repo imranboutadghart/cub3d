@@ -8,5 +8,7 @@ int	init_player(t_parsing_data data, t_data *out)
 	out->player.dir = 0;
 	out->player.rot_speed = PI / 180;
 	out->player.walk_speed = 5;
+	out->width = data.width;
+	out->height = data.height;
 	return (0);
 }

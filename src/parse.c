@@ -43,6 +43,8 @@ t_parsing_data	parse(int ac, char **av)
 	data.f = 0;
 	data.c = 0x000020c4;
 	data.map = get_map();
+	data.width = MAP_WIDTH;
+	data.height = MAP_HEIGHT;
 	data.player_x = MAP_WIDTH / 2;
 	data.player_y = MAP_HEIGHT / 2;
 	return (data);

@@ -14,5 +14,5 @@ int main(int ac, char **av)
 	}
 	free_map(data.map);
 	// game_loop(&data);
-	destroy_data(&data);
+	destroy_data(&game_data);
 }

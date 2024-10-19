@@ -14,6 +14,15 @@
 # define FPS 30
 # define FOV (60.0 * PI / 180)
 
+# define UP    1
+# define DOWN  2
+# define LEFT  3
+# define RIGHT 4
+
+# define FACING_DOWN 0
+# define FACING_UP 1
+# define FACING_LEFT 2
+# define FACING_RIGHT 3
 
 # define TEXTURE_E "assets/1.xpm"
 # define TEXTURE_W "assets/2.xpm"

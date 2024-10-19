@@ -13,16 +13,18 @@
 # define WINDOW_HEIGHT 600
 # define FPS 30
 # define FOV (60.0 * PI / 180)
+# define EPSILON 0.0000005
 
 # define UP    1
 # define DOWN  2
 # define LEFT  3
 # define RIGHT 4
-
 # define FACING_DOWN 0
 # define FACING_UP 1
 # define FACING_LEFT 2
 # define FACING_RIGHT 3
+
+# define SQUARE(x) ((x) * (x))
 
 # define TEXTURE_E "assets/1.xpm"
 # define TEXTURE_W "assets/2.xpm"
@@ -85,6 +87,8 @@ typedef struct s_ray
 	double	dist;
 	int		hit;
 	int		hit_direction;
+	int		x_texture_offset;
+	int		y_texture_offset;
 	int		texture_offset;
 }	t_ray;
 

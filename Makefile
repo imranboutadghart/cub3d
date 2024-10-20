@@ -23,7 +23,7 @@ OBJ:=$(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRC))
 vpath %.c $(SRC_DIR)
 
 echo:
-	echo $(CFLAGS)
+	echo $(LIB)
 
 all : $(NAME)
 

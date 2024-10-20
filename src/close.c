@@ -9,9 +9,3 @@ int	close_win(t_data *data)
 	(void)data;
 	exit(0);
 }
-
-void	destroy_data(t_data *data)
-{
-	destroy_textures(data);
-	destroy_mlx(data);
-}

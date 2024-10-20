@@ -26,10 +26,6 @@ static double	cast_ray(t_data *data, int i, double angle)
 	double  ret_forx;
 	double  ret_fory;
 	double	dist;
-	int		x;
-	int		y;
-	int		direction_x;
-	int		direction_y;
 
 	data->rays[i].angle = angle;
 	ret_forx = get_x_dist(data, i);
@@ -77,7 +73,6 @@ double get_x_dist(t_data *data, int i)
 	data->rays[i].x_texture_offset = y % TILE_SIZE;
 	return (SQUARE(x - data->player.x) + SQUARE(y - data->player.y));
 }
-
 
 double get_y_dist(t_data *data, int i)
 {

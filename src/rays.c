@@ -35,12 +35,16 @@ static double	cast_ray(t_data *data, int i, double angle)
 		dist = ret_forx;
 		data->rays[i].hit_direction = 2 + (cos(data->rays[i].angle) >= 0) * 1;
 		data->rays[i].texture_offset = data->rays[i].x_texture_offset;
+		data->rays[i].hit.x = data->rays[i].hit_x.x;
+		data->rays[i].hit.y = data->rays[i].hit_x.y;
 	}
 	else
 	{
 		dist = ret_fory;
 		data->rays[i].hit_direction = (sin(data->rays[i].angle) < 0) * 1;
 		data->rays[i].texture_offset = data->rays[i].y_texture_offset;
+		data->rays[i].hit.x = data->rays[i].hit_y.x;
+		data->rays[i].hit.y = data->rays[i].hit_y.y;
 	}
 	data->rays[i].dist = dist;
 	return (dist);
@@ -71,6 +75,8 @@ double get_x_dist(t_data *data, int i)
 	if (is_out(x, y, data))
 		return (-1);
 	data->rays[i].x_texture_offset = y % TILE_SIZE;
+	data->rays[i].hit_x.x = x;
+	data->rays[i].hit_x.y = y;
 	return (SQUARE(x - data->player.x) + SQUARE(y - data->player.y));
 }
 
@@ -99,6 +105,8 @@ double get_y_dist(t_data *data, int i)
 	if (is_out(x, y, data))
 		return (-1);
 	data->rays[i].y_texture_offset = x % TILE_SIZE;
+	data->rays[i].hit_y.x = x;
+	data->rays[i].hit_y.y = y;
 	return (sqrt(SQUARE(x - data->player.x) + SQUARE(y - data->player.y)));
 }
 

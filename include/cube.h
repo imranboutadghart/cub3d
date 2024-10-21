@@ -4,9 +4,12 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include "mlx.h"
 # include <math.h>
+# include "minimap.h"
 
+# define NAME "cub3D"
 # define TILE_SIZE 64
 # define PI 3.14159265358979323846
 # define WINDOW_WIDTH 800
@@ -15,7 +18,7 @@
 # define FOV (60.0 * PI / 180)
 # define EPSILON 0.0000005
 
-# define UP    1
+# define UP	1
 # define DOWN  2
 # define LEFT  3
 # define RIGHT 4
@@ -71,6 +74,11 @@ typedef struct s_mlx_data
 {
 	void	*mlx;
 	void	*win;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		ll;
+	int		endian;
 }	t_mlx_data;
 
 typedef struct s_texture_pack
@@ -85,7 +93,9 @@ typedef struct s_ray
 {
 	double	angle;
 	double	dist;
-	int		hit;
+	t_coords	hit_x;
+	t_coords	hit_y;
+	t_coords	hit;
 	int		hit_direction;
 	int		x_texture_offset;
 	int		y_texture_offset;
@@ -121,6 +131,14 @@ int		init_player(t_parsing_data data, t_data *out);
 int		game_loop(t_data *data);
 void	destroy_data(t_data *data);
 
+//hooks
+int key_press(int keycode, t_data *data);
+
+//rendering
+int draw_minimap(t_data *data);
+int draw_line(t_data *data, t_coords start, t_coords end);
+int	equal(t_coords a, t_coords b);
+void my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color);
 
 int	error(char *msg);
 

@@ -5,7 +5,7 @@ int	equal(t_coords a, t_coords b)
 	return (abs(a.x - b.x) < 3 && abs(a.y - b.y) < 3);
 }
 
-int draw_line(t_data *data, t_coords start, t_coords end)
+int draw_line(t_data *data, t_coords start, t_coords end, int color)
 {
 	int dx = abs(start.x - end.x);
 	int dy = abs(start.y - end.y);
@@ -19,10 +19,11 @@ int draw_line(t_data *data, t_coords start, t_coords end)
 	double wy = start.y;
 	while (!equal((t_coords){wx, wy}, end))
 	{
-		my_mlx_pixel_put(&data->mlx, wx, wy, 0x0000FF);
+		my_mlx_pixel_put(&data->mlx, wx, wy, color);
 		wx += sx;
 		wy += sy;
 	}
+	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 	return (0);
 }
 

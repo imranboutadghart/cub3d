@@ -1,5 +1,5 @@
 CC:=cc
-CFLAGS:= -Wextra -Wall -Werror
+CFLAGS:= -Wextra -Wall -g #-Werror -g
 NAME:= cube3d
 INCLUDE_DIR:=include
 BIN_DIR:=bin
@@ -11,8 +11,8 @@ CFLAGS += -Ofast
 LIB= -lmlx -framework OpenGL -framework AppKit
 endif
 ifeq ($(UNAME), Linux)
-CFLAGS += -O3
-LIB= -lXext -lX11 -lmlx -lm
+CFLAGS += #-O3
+LIB= -lXext -lX11 -lm -lbsd
 endif
 
 SRC:= $(wildcard $(SRC_DIR)/*.c)
@@ -28,7 +28,7 @@ echo:
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(LIB) -I$(INCLUDE_DIR) -o $@ $(OBJ)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $(OBJ) libmlx.a $(LIB) 
 
 $(BIN_DIR)/%.o : %.c include/*.h | $(BIN_DIR)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ -c $<

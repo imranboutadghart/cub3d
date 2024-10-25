@@ -16,7 +16,7 @@
 # define WINDOW_HEIGHT 600
 # define FPS 30
 # define FOV (60.0 * PI / 180)
-# define EPSILON 0.0000005
+# define EPSILON 0.00005
 
 # define UP	1
 # define DOWN  2
@@ -45,8 +45,8 @@ typedef struct s_parsing_data
 	int		c;
 	int		player_x;
 	int		player_y;
-	int		width;
-	int		height;
+	int		cols;
+	int		lines;
 }	t_parsing_data;
 
 typedef struct s_texture
@@ -62,12 +62,11 @@ typedef struct s_texture
 
 typedef struct s_player
 {
-	double	x;
-	double	y;
+	int		x;
+	int		y;
 	double	dir;
 	double	rot_speed;
 	double	walk_speed;
-
 }	t_player;
 
 typedef struct s_mlx_data
@@ -108,8 +107,8 @@ typedef struct s_data
 	t_texture_pack	textures;
 	t_mlx_data		mlx;
 	t_player		player;
-	int				width;
-	int				height;
+	int				cols;
+	int				lines;
 	int				floor_color;
 	int				ceil_color;
 	t_ray			rays[WINDOW_WIDTH];
@@ -122,7 +121,7 @@ void	destroy_mlx(t_data *data);
 int		init_textures(t_parsing_data data, t_data *out);
 void	destroy_textures(t_data *data);
 
-t_parsing_data	parse(int ac, char **av);
+t_parsing_data	*parse(int ac, char **av);
 char	**get_map(void);
 void	free_map(char **map);
 int		close_win(t_data *data);
@@ -136,7 +135,7 @@ int key_press(int keycode, t_data *data);
 
 //rendering
 int draw_minimap(t_data *data);
-int draw_line(t_data *data, t_coords start, t_coords end);
+int draw_line(t_data *data, t_coords start, t_coords end, int color);
 int	equal(t_coords a, t_coords b);
 void my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color);
 

@@ -30,23 +30,24 @@ void	free_map(char **map)
 	free(map);
 }
 
-t_parsing_data	parse(int ac, char **av)
+t_parsing_data	*parse(int ac, char **av)
 {
-	t_parsing_data	data;
+	t_parsing_data	*data;
 
 	(void) ac;
 	(void) av;
-	data.e_texture = TEXTURE_E;
-	data.w_texture = TEXTURE_W;
-	data.s_texture = TEXTURE_S;
-	data.n_texture = TEXTURE_N;
-	data.f = 0;
-	data.c = 0x000020c4;
-	data.map = get_map();
-	data.width = MAP_WIDTH;
-	data.height = MAP_HEIGHT;
-	data.player_x = MAP_WIDTH / 2;
-	data.player_y = MAP_HEIGHT / 2;
+	data = malloc(sizeof(t_parsing_data));
+	data->e_texture = TEXTURE_E;
+	data->w_texture = TEXTURE_W;
+	data->s_texture = TEXTURE_S;
+	data->n_texture = TEXTURE_N;
+	data->f = 0;
+	data->c = 0x000020c4;
+	data->map = get_map();
+	data->cols = MAP_WIDTH;
+	data->lines = MAP_HEIGHT;
+	data->player_x = MAP_WIDTH / 2;
+	data->player_y = MAP_HEIGHT / 2;
 	return (data);
 }
 

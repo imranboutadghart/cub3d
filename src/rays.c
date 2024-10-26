@@ -65,33 +65,36 @@ double get_x_dist(t_data *data, int i)
 	int		y;
 	int		ray_direction;
 	int		first_step;
+	int		direction;
 	double	angle;
 
 	angle = data->rays[i].angle;
 	if (fabs(cos(angle)) <= EPSILON)
 	{
-		printf("x-angle too small\n");
+		// printf("x-angle too small\n");
 		return (-1);
 	}
 	ray_direction = cos(angle) >= 0;
 	first_step = (TILE_SIZE - ((int)data->player.x % TILE_SIZE)) * (ray_direction)
 				- ((int)data->player.x % TILE_SIZE) * (!ray_direction);
-	x = data->player.x + first_step;
-	y = data->player.y + first_step * (tan(angle));
+	direction = (ray_direction * 1 + !ray_direction * -1);
+	x = data->player.x + first_step * direction;
+	y = data->player.y + first_step * (tan(angle) * direction);
 	while (!is_out(x, y, data) &&
-			data->map[x / TILE_SIZE][y / TILE_SIZE] != '0')
+			data->map[x / TILE_SIZE][y / TILE_SIZE] != '1')
 	{
-		x += TILE_SIZE;
-		y += TILE_SIZE * tan(angle);
+		x += TILE_SIZE * direction /** (ray_direction * 1 + !ray_direction * -1)*/;
+		y += TILE_SIZE * (tan(angle) * direction);
 	}
 	if (is_out(x, y, data))
 	{
-		// printf("x-out\n");
+		// printf("angle: %f, x-out\n", angle * 180);
 		return (-1);
 	}
 	data->rays[i].x_texture_offset = y % TILE_SIZE;
-	data->rays[i].hit_x.x = x;
+	data->rays[i].hit_x.x = x + TILE_SIZE * !ray_direction;
 	data->rays[i].hit_x.y = y;
+	printf("x: %d, y: %d,   angle: %f, myval: %d\n", x, y, angle * 180 / PI, direction);
 	draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
 				(t_coords){((double)x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
 				0x00FFFF);
@@ -109,7 +112,7 @@ double get_y_dist(t_data *data, int i)
 	angle = data->rays[i].angle;
 	if (fabs(sin(angle)) <= EPSILON)
 	{
-		printf("y-angle too small\n");
+		// printf("y-angle too small\n");
 		return (-1);
 	}
 	ray_direction = sin(angle) >= 0;
@@ -118,20 +121,19 @@ double get_y_dist(t_data *data, int i)
 	x = data->player.x + first_step * atan(angle);
 	y = data->player.y + first_step;
 	while (!is_out(x, y, data) &&
-			data->map[x / TILE_SIZE][y / TILE_SIZE] == '0')
+			data->map[x / TILE_SIZE][y / TILE_SIZE] != '1')
 	{
 		x += (double)TILE_SIZE / tan(angle);
-		y += TILE_SIZE;
+		y += TILE_SIZE * (ray_direction * 1 + !ray_direction * -1);
 	}
 	if (is_out(x, y, data))
 	{
-		// printf("y-out\n");
+		// printf("angle: %f, y-out\n", angle * 180);
 		return (-1);
 	}
-	draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-				(t_coords){((double)x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-				0xFF00FF);
-
+	// draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
+	// 			(t_coords){((double)x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
+	// 			0xFF00FF);
 	data->rays[i].y_texture_offset = x % TILE_SIZE;
 	data->rays[i].hit_y.x = x;
 	data->rays[i].hit_y.y = y;

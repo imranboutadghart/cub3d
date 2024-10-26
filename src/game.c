@@ -7,9 +7,20 @@ int	game_loop(t_data *data)
 	// update_rays(data);
 	draw_minimap(data);
 	update_rays(data);
-	data->player.dir += data->player.rot_speed;
+	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
+	data->player.dir = data->player.dir + data->player.rot_speed;
+	usleep(50000);
+	if (data->player.dir >= PI * 2)
+		data->player.dir -= PI * 2;
+
 	// update_player(data);
 	// update_sprites(data);
 	// render(data);
+	return (0);
+}
+
+int	game_pause(t_data *data)
+{
+	(void)data;
 	return (0);
 }

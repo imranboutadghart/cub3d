@@ -23,7 +23,6 @@ int draw_line(t_data *data, t_coords start, t_coords end, int color)
 		wx += sx;
 		wy += sy;
 	}
-	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 	return (0);
 }
 

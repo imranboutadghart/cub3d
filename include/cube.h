@@ -27,6 +27,8 @@
 # define FACING_LEFT 2
 # define FACING_RIGHT 3
 
+# define ROT_SPEED (PI / 180)
+
 # define SQUARE(x) ((x) * (x))
 
 # define TEXTURE_E "assets/1.xpm"
@@ -127,11 +129,14 @@ void	free_map(char **map);
 int		close_win(t_data *data);
 int		init_data(t_parsing_data data, t_data *out);
 int		init_player(t_parsing_data data, t_data *out);
-int		game_loop(t_data *data);
 void	destroy_data(t_data *data);
 
 //hooks
 int key_press(int keycode, t_data *data);
+
+
+int		game_loop(t_data *data);
+int	game_pause(t_data *data);
 
 //rendering
 int draw_minimap(t_data *data);

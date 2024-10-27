@@ -13,6 +13,10 @@ void	update_rays(t_data *data)
 
 	i = 0;
 	angle = data->player.dir - FOV / 2;
+	if (angle >= PI * 2)
+		angle -= PI * 2;
+	if (angle < PI * 2)
+		angle += PI * 2;
 	while (i < WINDOW_WIDTH)
 	{
 		// printf("angle: %f\n", angle * 180 / PI);
@@ -94,7 +98,7 @@ double get_x_dist(t_data *data, int i)
 	data->rays[i].x_texture_offset = y % TILE_SIZE;
 	data->rays[i].hit_x.x = x + TILE_SIZE * !ray_direction;
 	data->rays[i].hit_x.y = y;
-	printf("x: %d, y: %d,   angle: %f, myval: %d\n", x, y, angle * 180 / PI, direction);
+	printf("x: %d, y: %d,   angle: %f, myval: %f\n", x, y, angle * 180 / PI, tan(angle));
 	draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
 				(t_coords){((double)x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
 				0x00FFFF);

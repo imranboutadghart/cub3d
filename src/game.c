@@ -8,13 +8,8 @@ int	game_loop(t_data *data)
 	draw_minimap(data);
 	update_rays(data);
 	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
-	data->player.dir = data->player.dir - data->player.rot_speed;
-	usleep(50000);
-	if (data->player.dir >= PI * 2)
-		data->player.dir -= PI * 2;
-	if (data->player.dir < PI * 2)
-		data->player.dir += PI * 2;
-
+	data->player.dir = data->player.dir + data->player.rot_speed * PI / (180 * 5);
+	normalize_angle(&data->player.dir);
 	// update_player(data);
 	// update_sprites(data);
 	// render(data);

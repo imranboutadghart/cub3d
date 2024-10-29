@@ -15,6 +15,7 @@ CFLAGS += #-O3
 LIB= -lXext -lX11 -lm -lbsd
 endif
 
+INCLUDES:= $(wildcard $(INCLUDE_DIR)/*.h)
 SRC:= $(wildcard $(SRC_DIR)/*.c)
 OBJ:=$(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRC))
 
@@ -30,7 +31,7 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $(OBJ) libmlx.a $(LIB) 
 
-$(BIN_DIR)/%.o : %.c include/*.h | $(BIN_DIR)
+$(BIN_DIR)/%.o : %.c $(INCLUDES) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ -c $<
 
 debug : CFLAGS+=-g

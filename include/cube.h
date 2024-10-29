@@ -8,6 +8,8 @@
 # include "mlx.h"
 # include <math.h>
 # include "minimap.h"
+# include "colors.h"
+# include "keys.h"
 
 # define NAME "cub3D"
 # define TILE_SIZE 64
@@ -27,7 +29,7 @@
 # define FACING_LEFT 2
 # define FACING_RIGHT 3
 
-# define ROT_SPEED (PI / 180)
+# define ROT_SPEED 1
 
 # define SQUARE(x) ((x) * (x))
 
@@ -148,5 +150,6 @@ int	error(char *msg);
 
 //utils
 int	is_out(int x, int y, t_data *data);
+void	normalize_angle(double *angle);
 
 #endif // CUBE_H

@@ -33,3 +33,11 @@ void my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->ll + x * (data->bpp / 8));
 	*(unsigned int *)dst = color;
 }
+
+void	normalize_angle(double *angle)
+{
+	if (*angle >= PI * 2)
+		*angle -= PI * 2;
+	if (*angle < 0)
+		*angle += PI * 2;
+}

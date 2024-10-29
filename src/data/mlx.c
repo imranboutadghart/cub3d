@@ -12,6 +12,12 @@ int init_mlx(t_data *data)
 		return (1);
 	}
 	data->mlx.img = mlx_new_image(data->mlx.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!data->mlx.img)
+	{
+		mlx_destroy_window(data->mlx.mlx, data->mlx.win);
+		mlx_destroy_display(data->mlx.mlx);
+		return (1);
+	}
 	data->mlx.addr = mlx_get_data_addr(data->mlx.img, &data->mlx.bpp, &data->mlx.ll, &data->mlx.endian);
 	return (0);
 }

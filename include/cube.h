@@ -11,25 +11,22 @@
 # include "colors.h"
 # include "keys.h"
 
+// general data
 # define NAME "cub3D"
-# define TILE_SIZE 64
 # define PI 3.14159265358979323846
-# define WINDOW_WIDTH 800
-# define WINDOW_HEIGHT 600
-# define FPS 30
-# define FOV (60.0 * PI / 180)
 # define EPSILON 0.00005
 
-# define UP	1
-# define DOWN  2
-# define LEFT  3
-# define RIGHT 4
-# define FACING_DOWN 0
-# define FACING_UP 1
-# define FACING_LEFT 2
-# define FACING_RIGHT 3
+// game data
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
+# define TILE_SIZE 64
+# define FPS 30
+# define FOV (60.0 * PI / 180)
 
-# define ROT_SPEED 1
+// initialization
+# define INIT_ROT_SPEED 1
+# define INIT_DIR 0
+# define INIT_WALK_SPEED 5
 
 # define SQUARE(x) ((x) * (x))
 
@@ -115,27 +112,36 @@ typedef struct s_data
 	int				lines;
 	int				floor_color;
 	int				ceil_color;
+	int				pressed_keys[KEYS_COUNT];
 	t_ray			rays[WINDOW_WIDTH];
 }	t_data;
 
-// MLX
+// PARSING
+t_parsing_data	*parse(int ac, char **av);
+void	free_parsing_data(t_parsing_data *data);
+void	free_map(char **map, int cols);
+
+// DATA
+//		MLX
 int		init_mlx(t_data *data);
 void	destroy_mlx(t_data *data);
-// TEXTURES
+
+//		TEXTURES
 int		init_textures(t_parsing_data data, t_data *out);
 void	destroy_textures(t_data *data);
 
-t_parsing_data	*parse(int ac, char **av);
-char	**get_map(void);
-void	free_map(char **map);
-int		close_win(t_data *data);
-int		init_data(t_parsing_data data, t_data *out);
+// 		PLAYER
 int		init_player(t_parsing_data data, t_data *out);
+
+//		DATA
+int		init_data(t_parsing_data data, t_data *out);
 void	destroy_data(t_data *data);
+
+int		close_all(t_data *data);
 
 //hooks
 int key_press(int keycode, t_data *data);
-
+int	key_release(int	keycode, t_data *data);
 
 int		game_loop(t_data *data);
 int	game_pause(t_data *data);
@@ -146,10 +152,16 @@ int draw_line(t_data *data, t_coords start, t_coords end, int color);
 int	equal(t_coords a, t_coords b);
 void my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color);
 
+void	do_movement(t_data *data);
+
 int	error(char *msg);
 
 //utils
 int	is_out(int x, int y, t_data *data);
 void	normalize_angle(double *angle);
+size_t	ft_strlen(char *msg);
+char	*ft_strdup(char *str);
+void	*ft_memdup(void *src, size_t size);
+
 
 #endif // CUBE_H

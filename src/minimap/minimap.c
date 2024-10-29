@@ -9,14 +9,13 @@ int	 draw_rays(t_data *data);
 
 void draw_ray_borders(t_data *data)
 {
-	// t_coords player = (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)};
-	// t_coords first_ray = (t_coords){player.x + cos(data->player.dir - FOV /2) * WINDOW_WIDTH / 4, player.y + sin(data->player.dir - FOV / 2) * WINDOW_HEIGHT / 4};
-	// t_coords last_ray = (t_coords){player.x + cos(data->player.dir + FOV /2) * WINDOW_WIDTH / 4, player.y + sin(data->player.dir + FOV / 2) * WINDOW_HEIGHT / 4};
+	(void)data;
+	t_coords player = (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)};
+	t_coords first_ray = (t_coords){player.x + cos(data->player.dir - FOV /2) * TILE_SIZE, player.y + sin(data->player.dir - FOV / 2) * TILE_SIZE};
+	t_coords last_ray = (t_coords){player.x + cos(data->player.dir + FOV /2) * TILE_SIZE, player.y + sin(data->player.dir + FOV / 2) * TILE_SIZE};
 
-	// draw_line(data, player, first_ray, 0x00FF00);
-	// draw_line(data, player, last_ray, 0x00FF00);
-
-
+	draw_line(data, player, first_ray, 0xFF0000);
+	draw_line(data, player, last_ray, 0xFF0000);
 }
 
 int draw_minimap(t_data *data)

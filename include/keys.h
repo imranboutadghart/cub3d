@@ -12,4 +12,15 @@
 # define KEY_S 115
 # define KEY_D 100
 
+# define KEYS_COUNT 8
+
+# define LEFT_PRESSED 0
+# define RIGHT_PRESSED 1
+# define UP_PRESSED 2
+# define DOWN_PRESSED 3
+# define W_PRESSED 4
+# define A_PRESSED 5
+# define S_PRESSED 6
+# define D_PRESSED 7
+
 # endif

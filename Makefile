@@ -3,7 +3,7 @@ CFLAGS:= -Wextra -Wall -g #-Werror -g
 NAME:= cube3d
 INCLUDE_DIR:=include
 BIN_DIR:=bin
-SRC_DIR=src
+SRC_DIRS= src $(patsubst %/, %, $(sort $(dir $(wildcard src/*/))))
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Darwin)
@@ -16,15 +16,16 @@ LIB= -lXext -lX11 -lm -lbsd
 endif
 
 INCLUDES:= $(wildcard $(INCLUDE_DIR)/*.h)
-SRC:= $(wildcard $(SRC_DIR)/*.c)
-OBJ:=$(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRC))
+SRC:= $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.c))
+OBJ:= $(patsubst %.c, $(BIN_DIR)/%.o, $(notdir $(SRC)))
 
 .DEFAULT_GOAL := $(NAME)
 
-vpath %.c $(SRC_DIR)
+vpath %.c $(SRC_DIRS)
 
 echo:
-	echo $(LIB)
+	@echo src dirs: $(SRC_DIRS)
+	@echo objects: $(OBJ)
 
 all : $(NAME)
 

@@ -24,12 +24,25 @@ void	do_movement(t_data *data)
 
 void	move_player(t_data *data, int x, int y)
 {
-	double angle;
+	double	angle;
+	int		x_offset;
+	int		y_offset;
 
 	// atan2(x, y) returns the angle between the x-axis and the point (x, y) 
 	angle = data->player.dir + atan2(y, x);
-	data->player.x += data->player.walk_speed * cos(angle);
-	data->player.y += data->player.walk_speed * sin(angle);
+	x_offset = (int)kill_precision(data->player.walk_speed * cos(angle));
+	y_offset = (int)kill_precision(data->player.walk_speed * sin(angle));
+	if (is_wall(data->player.x + x_offset, data->player.y + y_offset, data))
+	{
+		if (!is_wall(data->player.x + x_offset, data->player.y, data))
+			y_offset = 0;
+		else if (!is_wall(data->player.x, data->player.y + y_offset, data))
+			x_offset = 0;
+		else
+			return ;
+	}
+	data->player.x += x_offset;
+	data->player.y += y_offset;
 }
 
 void	rotate_player(t_data *data, int dir)

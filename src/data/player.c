@@ -11,5 +11,7 @@ int	init_player(t_parsing_data data, t_data *out)
 	out->player.dir = INIT_DIR;
 	out->player.rot_speed = INIT_ROT_SPEED;
 	out->player.walk_speed = INIT_WALK_SPEED;
+	ft_bzero(out->pressed_keys, KEYS_COUNT * sizeof(int));
+	ft_bzero(out->rays, WINDOW_WIDTH * sizeof(t_ray));
 	return (0);
 }

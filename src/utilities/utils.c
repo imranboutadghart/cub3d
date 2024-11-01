@@ -29,14 +29,18 @@ char	*ft_strdup(char *str)
 	return (new);
 }
 
-void	*ft_memdup(void *src, size_t size)
+void	*ft_bzero(void *src, size_t size)
 {
-	void	*new;
+	size_t	i;
+	size_t	len;
 
-	new = malloc(size);
-	if (!new)
-		return (NULL);
-	while (size--)
-		((char *)new)[size] = ((char *)src)[size];
-	return (new);
+	len = size / sizeof(void *);
+	i = -1;
+	while (++i < len)
+		*((void **)src + i) = (void *)0;
+	len = size % sizeof(void *);
+	i = -1;
+	while (++i < len)
+		*((char *)src + i) = 0;
+	return (src);
 }

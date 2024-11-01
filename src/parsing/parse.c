@@ -25,6 +25,7 @@ t_parsing_data	*parse(int ac, char **av)
 	return (data);
 }
 
+// don't free map, mafiach li iduppiha
 static char	**get_map(void)
 {
 	char	**map;
@@ -41,6 +42,9 @@ static char	**get_map(void)
 				map[i][j] = '0';
 		}
 	}
+	map[3][7] = '1';
+	map[5][7] = '1';
+	map[3][4] = '1';
 	map[MAP_WIDTH / 2][MAP_HEIGHT / 2] = 'P';
 	return (map);
 }

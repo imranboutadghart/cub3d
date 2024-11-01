@@ -41,3 +41,36 @@ void	normalize_angle(double *angle)
 	if (*angle < 0)
 		*angle += PI * 2;
 }
+
+float	kill_precision(float x)
+{
+	return (round(x * 1000000) / 1000000);
+}
+
+long	get_time()
+{
+	time_t		now;
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	now = tv.tv_usec + (tv.tv_sec % 1000000) * 1000000;
+	return (now);
+}
+
+void	limit_fps(int fps)
+{
+	static int	last_time;
+	int			current_time;
+
+	if (fps <= 0)
+		return ;
+	if (!last_time)
+		last_time = get_time();
+	current_time = get_time();
+	while (current_time - last_time < 1000000. / fps)
+	{
+		usleep(100);
+		current_time = get_time();
+	}
+	last_time = current_time;
+}

@@ -6,7 +6,7 @@ void	unpress_key(int keycode, t_data *data);
 int key_press(int keycode, t_data *data)
 {
 	static int state = 0;
-	printf("key pressed : %d\n", keycode);
+	// printf("key pressed : %d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_all(data);
 	if (keycode == KEY_SPACE)

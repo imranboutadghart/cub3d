@@ -1,7 +1,6 @@
 #include "cube.h"
 
 #define STEP 1
-int get_next_tile(int direction, int initial_pos);
 static double	cast_ray(t_data *data, int i, double angle);
 double get_x_dist(t_data *data, int i);
 double get_y_dist(t_data *data, int i);
@@ -36,21 +35,17 @@ static double	cast_ray(t_data *data, int i, double angle)
 		dist = ret_forx;
 		data->rays[i].hit_direction = 2 + (cos(data->rays[i].angle) >= 0) * 1;
 		data->rays[i].texture_offset = data->rays[i].x_texture_offset;
-		data->rays[i].hit.x = data->rays[i].hit_x.x;
-		data->rays[i].hit.y = data->rays[i].hit_x.y;
+		data->rays[i].hit.x = data->rays[i].tmp_hit_X.x;
+		data->rays[i].hit.y = data->rays[i].tmp_hit_X.y;
 	}
 	else
 	{
 		dist = ret_fory;
 		data->rays[i].hit_direction = (sin(data->rays[i].angle) < 0) * 1;
 		data->rays[i].texture_offset = data->rays[i].y_texture_offset;
-		data->rays[i].hit.x = data->rays[i].hit_y.x;
-		data->rays[i].hit.y = data->rays[i].hit_y.y;
+		data->rays[i].hit.x = data->rays[i].tmp_hit_y.x;
+		data->rays[i].hit.y = data->rays[i].tmp_hit_y.y;
 	}
-	// draw line from player to hit point
-	draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-				(t_coords){((double)data->rays[i].hit.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->rays[i].hit.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-				0x00FFFF);
 	data->rays[i].dist = dist;
 	return (dist);
 }
@@ -74,8 +69,7 @@ double get_x_dist(t_data *data, int i)
 	tan_val = tan(angle);
 	x = data->player.x + first_step;
 	y = data->player.y + first_step * tan_val;
-	while (!is_out(x, y, data) &&
-			data->map[(x - TILE_SIZE * (ray_direction == -1)) / TILE_SIZE][y / TILE_SIZE] != '1')
+	while (!is_out(x, y, data) && !is_wall(x - TILE_SIZE * (ray_direction == -1), y, data))
 	{
 		x += TILE_SIZE * ray_direction;
 		y += TILE_SIZE * tan_val * ray_direction;
@@ -83,11 +77,11 @@ double get_x_dist(t_data *data, int i)
 	if (is_out(x, y, data))
 		return (-1);
 	data->rays[i].x_texture_offset = y % TILE_SIZE;
-	data->rays[i].hit_x.x = x;
-	data->rays[i].hit_x.y = y;
+	data->rays[i].tmp_hit_X.x = x;
+	data->rays[i].tmp_hit_X.y = y;
 	// draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
 	// 			(t_coords){((double)x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-	// 			0x00FFFF);
+	// 			COLOR5);
 	return (sqrt(SQUARE(x - data->player.x) + SQUARE(y - data->player.y)));
 }
 
@@ -110,8 +104,7 @@ double get_y_dist(t_data *data, int i)
 	tan_val = 1. / tan(angle);
 	x = data->player.x + first_step * tan_val;
 	y = data->player.y + first_step;
-	while (!is_out(x, y, data) &&
-			data->map[x / TILE_SIZE][(y - TILE_SIZE * (ray_direction == -1)) / TILE_SIZE] != '1')
+	while (!is_out(x, y, data) && !is_wall(x, y - TILE_SIZE * (ray_direction == -1), data))
 	{
 		x += (double)TILE_SIZE * tan_val * ray_direction;
 		y += TILE_SIZE * ray_direction;
@@ -120,18 +113,9 @@ double get_y_dist(t_data *data, int i)
 		return (-1);
 	// draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
 	// 			(t_coords){((double)x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-	// 			0xFF0000);
+	// 			COLOR6);
 	data->rays[i].y_texture_offset = x % TILE_SIZE;
-	data->rays[i].hit_y.x = x;
-	data->rays[i].hit_y.y = y;
+	data->rays[i].tmp_hit_y.x = x;
+	data->rays[i].tmp_hit_y.y = y;
 	return (sqrt(SQUARE(x - data->player.x) + SQUARE(y - data->player.y)));
-}
-
-int	get_next_tile(int direction, int initial_pos)
-{
-	if (direction == 0)
-		return (initial_pos);
-	if (direction > 0)
-		return (ceil((double)initial_pos / TILE_SIZE) + 0.1) * TILE_SIZE;
-	return (floor((double)initial_pos / TILE_SIZE) + 0.1) * TILE_SIZE;
 }

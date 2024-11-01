@@ -4,7 +4,8 @@ static int	set_def_hooks(t_data *data);
 
 int	init_data(t_parsing_data data, t_data *out)
 {
-	out->map = ft_memdup(data.map, data.cols * data.lines * sizeof(char));
+	// out map won't be freed in parsing
+	out->map = data.map;
 	init_player(data, out);
 	if (init_mlx(out) || set_def_hooks(out))
 		return (free_map(out->map, out->cols), error("Failed to init mlx\n"));

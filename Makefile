@@ -11,7 +11,7 @@ CFLAGS += -Ofast
 LIB= -lmlx -framework OpenGL -framework AppKit
 endif
 ifeq ($(UNAME), Linux)
-CFLAGS += #-O3
+CFLAGS += -O3
 LIB= -lXext -lX11 -lm -lbsd
 endif
 

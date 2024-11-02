@@ -93,7 +93,7 @@ int	 draw_rays(t_data *data)
 		// 			COLOR8);
 		draw_line(data, scale_to_minimap(data, (t_coords){data->player.x, data->player.y}),
 					scale_to_minimap(data, (t_coords){data->rays[i].hit.x, data->rays[i].hit.y}),
-					COLOR8);
+					(data->rays[i].hit_direction & 2) ? COLOR8 : COLOR6 );
 		// printf("data %p : coords: %f %f\n", data, p_x * x_size, p_y * y_size);
 		// my_mlx_pixel_put(&data->mlx, p_x * x_size, p_y * y_size, 0x00FFFF);
 		++i;

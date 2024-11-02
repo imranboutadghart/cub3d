@@ -100,7 +100,7 @@ typedef struct s_ray
 {
 	double	angle;
 	double	dist;
-	t_coords	tmp_hit_X;
+	t_coords	tmp_hit_x;
 	t_coords	tmp_hit_y;
 	t_coords	hit;
 	int		hit_direction;

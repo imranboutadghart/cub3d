@@ -12,8 +12,8 @@ void draw_ray_borders(t_data *data)
 {
 	(void)data;
 	t_coords p = scale_to_minimap(data, (t_coords){data->player.x, data->player.y});
-	t_coords f = (t_coords){p.x + cos(data->player.dir - FOV /2) * TILE_SIZE / 2, p.y + sin(data->player.dir - FOV / 2) * TILE_SIZE / 2};
-	t_coords l = (t_coords){p.x + cos(data->player.dir + FOV /2) * TILE_SIZE / 2, p.y + sin(data->player.dir + FOV / 2) * TILE_SIZE / 2};
+	t_coords f = (t_coords){p.x + cos(data->player.dir - FOV /2) * MINIMAP_SCALE * TILE_SIZE / 2, p.y + sin(data->player.dir - FOV / 2) * MINIMAP_SCALE * TILE_SIZE / 2};
+	t_coords l = (t_coords){p.x + cos(data->player.dir + FOV /2) * MINIMAP_SCALE * TILE_SIZE / 2, p.y + sin(data->player.dir + FOV / 2) * MINIMAP_SCALE * TILE_SIZE / 2};
 
 	// printf("angle between borders: %f\n", 180 / PI * acos((SQUARE(calc(p.x, p.y, f.x, f.y)) + SQUARE(calc(p.x, p.y, l.x, l.y)) - calc(f.x, f.y, l.x, l.y)) / (2 * calc(p.x, p.y, f.x, f.y) * calc(p.x, p.y, l.x, l.y))));
 	draw_line(data, p, f, 0xFF0000);

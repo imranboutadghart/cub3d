@@ -167,6 +167,7 @@ void	limit_fps(int fps);
 void	my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color);
 int		draw_line(t_data *data, t_coords start, t_coords end, int color);
 int		draw_minimap(t_data *data);
+void	draw_game(t_data *data);
 
 
 

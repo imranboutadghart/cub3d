@@ -15,8 +15,8 @@ t_parsing_data	*parse(int ac, char **av)
 	data->w_texture = ft_strdup(TEXTURE_W);
 	data->s_texture = ft_strdup(TEXTURE_S);
 	data->n_texture = ft_strdup(TEXTURE_N);
-	data->f = 0;
-	data->c = 0x000020c4;
+	data->f = 0x964B00;
+	data->c = 0x87CEEB;
 	data->map = get_map();
 	data->cols = MAP_WIDTH;
 	data->lines = MAP_HEIGHT;

@@ -8,6 +8,7 @@ int	game_loop(t_data *data)
 	limit_fps(FPS);
 	do_movement(data);
 	update_rays(data);
+	draw_game(data);
 	draw_minimap(data);
 	mlx_put_image_to_window(data->mlx.mlx, data->mlx.win, data->mlx.img, 0, 0);
 	// render(data);

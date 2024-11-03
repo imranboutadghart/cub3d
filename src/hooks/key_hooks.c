@@ -1,7 +1,7 @@
 # include "cube.h"
 
-void	press_key(int keycode, t_data *data);
-void	unpress_key(int keycode, t_data *data);
+static void	press_key(int keycode, t_data *data);
+static void	unpress_key(int keycode, t_data *data);
 
 int key_press(int keycode, t_data *data)
 {

@@ -2,10 +2,9 @@
 
 // static t_coords	get_player_coords(t_data *data);
 static t_coords	scale_to_minimap(t_data *data, t_coords coords);
-int	 draw_block(t_data *data, int x, int y, double size, int color);
-void	my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color);
-int	 draw_player(t_data *data);
-int	 draw_rays(t_data *data);
+static int		draw_block(t_data *data, int x, int y, double size, int color);
+static int		draw_player(t_data *data);
+static int		draw_rays(t_data *data);
 
 # define calc(x1, y1, x2, y2) sqrt(SQUARE((x2) - (x1)) + SQUARE((y2) - (y1)))
 
@@ -41,9 +40,8 @@ int draw_minimap(t_data *data)
 		y++;
 	}
 	draw_player(data);
+	draw_rays(data);
 	draw_ray_borders(data);
-
-	// draw_rays(data);
 	return (0);
 }
 

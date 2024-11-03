@@ -2,9 +2,9 @@
 
 #define STEP 1
 static double	cast_ray(t_data *data, int i, double angle);
-double	get_x_dist(t_data *data, int i, double angle);
-double	get_y_dist(t_data *data, int i, double angle);
-int		next_tile(int val, int ray_direction);
+static double	get_x_dist(t_data *data, int i, double angle);
+static double	get_y_dist(t_data *data, int i, double angle);
+static int		next_tile(int val, int ray_direction);
 
 void	update_rays(t_data *data)
 {
@@ -49,7 +49,7 @@ static double	cast_ray(t_data *data, int i, double angle)
 
 double get_x_dist(t_data *data, int i, double angle)
 {
-	t_coords	pnt;
+	t_fcoords	pnt;
 	int		ray_direction;
 	double	tan_val;
 
@@ -67,14 +67,14 @@ double get_x_dist(t_data *data, int i, double angle)
 	}
 	if (is_out(pnt.x, pnt.y, data))
 		return (-1);
-	data->rays[i].x_texture_offset = pnt.y % TILE_SIZE;
+	data->rays[i].x_texture_offset = (int)pnt.y % TILE_SIZE;
 	data->rays[i].tmp_hit_x = (t_coords){pnt.x, pnt.y};
 	return (sqrt(square(pnt.x - data->player.x) + square(pnt.y - data->player.y)));
 }
 
 double get_y_dist(t_data *data, int i, double angle)
 {
-	t_coords	pnt;
+	t_fcoords	pnt;
 	int		ray_direction;
 	double	tan_val;
 
@@ -82,8 +82,8 @@ double get_y_dist(t_data *data, int i, double angle)
 		return (-1);
 	ray_direction = sin(angle) >= 0;
 	tan_val = 1. / tan(angle);
-	pnt.x = data->player.x + next_tile(data->player.x, ray_direction) * tan_val;
-	pnt.y = data->player.y + next_tile(data->player.x, ray_direction);
+	pnt.x = data->player.x + next_tile(data->player.y, ray_direction) * tan_val;
+	pnt.y = data->player.y + next_tile(data->player.y, ray_direction);
 	ray_direction = (ray_direction * 1 + !ray_direction * -1);
 	while (!is_wall(pnt.x, pnt.y - TILE_SIZE * (ray_direction == -1), data))
 	{
@@ -92,7 +92,7 @@ double get_y_dist(t_data *data, int i, double angle)
 	}
 	if (is_out(pnt.x, pnt.y, data))
 		return (-1);
-	data->rays[i].y_texture_offset = pnt.x % TILE_SIZE;
+	data->rays[i].y_texture_offset = (int)pnt.x % TILE_SIZE;
 	data->rays[i].tmp_hit_y = (t_coords){pnt.x, pnt.y};
 	return (sqrt(SQUARE(pnt.x - data->player.x) + SQUARE(pnt.y - data->player.y)));
 }

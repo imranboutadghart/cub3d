@@ -1,7 +1,7 @@
 #include "cube.h"
 
 static t_texture	*load_texture(char *path, void *mlx);
-static void	unload_texture(t_texture *texture, void *mlx);
+static void			unload_texture(t_texture *texture, void *mlx);
 
 int init_textures(t_parsing_data data, t_data *out)
 {

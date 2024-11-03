@@ -18,6 +18,12 @@ int	init_data(t_parsing_data data, t_data *out)
 	return (0);
 }
 
+void	destroy_data(t_data *data)
+{
+	destroy_textures(data);
+	destroy_mlx(data);
+}
+
 static int	set_def_hooks(t_data *data)
 {
 	mlx_hook(data->mlx.win, 2, 1L << 0, key_press, data);
@@ -25,10 +31,4 @@ static int	set_def_hooks(t_data *data)
 	mlx_hook(data->mlx.win, 17, 1L << 17, close_all, data);
 	mlx_loop_hook(data->mlx.mlx, game_loop, data);
 	return (0);
-}
-
-void	destroy_data(t_data *data)
-{
-	destroy_textures(data);
-	destroy_mlx(data);
 }

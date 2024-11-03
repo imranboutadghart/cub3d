@@ -18,7 +18,7 @@
 # define EPSILON 0.00005
 
 // game data
-# define WINDOW_WIDTH 800
+# define WINDOW_WIDTH 600
 # define WINDOW_HEIGHT 600
 # define TILE_SIZE 64
 # define FOV (60.0 * PI / 180)
@@ -165,6 +165,7 @@ int		draw_minimap(t_data *data);
 
 // utils
 // 		Math
+double	square(double x);
 int		equal(t_coords a, t_coords b);
 float	kill_precision(float x);
 void	normalize_angle(double *angle);

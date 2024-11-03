@@ -4,7 +4,7 @@
 static double	cast_ray(t_data *data, int i, double angle);
 double	get_x_dist(t_data *data, int i, double angle);
 double	get_y_dist(t_data *data, int i, double angle);
-int		get_next_tile(int val, int ray_direction);
+int		next_tile(int val, int ray_direction);
 
 void	update_rays(t_data *data)
 {
@@ -49,31 +49,32 @@ static double	cast_ray(t_data *data, int i, double angle)
 
 double get_x_dist(t_data *data, int i, double angle)
 {
-	t_coords	point;
+	t_coords	pnt;
 	int		ray_direction;
 	double	tan_val;
 
 	if (fabs(cos(angle)) <= EPSILON)
 		return (-1);
 	ray_direction = cos(angle) >= 0;
-	ray_direction = (ray_direction * 1 + !ray_direction * -1);
 	tan_val = tan(angle);
-	point = (t_coords){data->player.x + get_next_tile(data->player.x, ray_direction), data->player.y + get_next_tile(data->player.x, ray_direction) * tan_val};
-	while (!is_wall(point.x - TILE_SIZE * (ray_direction == -1), point.y, data))
+	pnt.x = data->player.x + next_tile(data->player.x, ray_direction);
+	pnt.y = data->player.y + next_tile(data->player.x, ray_direction) * tan_val;
+	ray_direction = (ray_direction * 1 + !ray_direction * -1);
+	while (!is_wall(pnt.x - TILE_SIZE * (ray_direction == -1), pnt.y, data))
 	{
-		point.x += TILE_SIZE * ray_direction;
-		point.y += TILE_SIZE * tan_val * ray_direction;
+		pnt.x += TILE_SIZE * ray_direction;
+		pnt.y += TILE_SIZE * tan_val * ray_direction;
 	}
-	if (is_out(point.x, point.y, data))
+	if (is_out(pnt.x, pnt.y, data))
 		return (-1);
-	data->rays[i].x_texture_offset = point.y % TILE_SIZE;
-	data->rays[i].tmp_hit_x = (t_coords){point.x, point.y};
-	return (sqrt(SQUARE(point.x - data->player.x) + SQUARE(point.y - data->player.y)));
+	data->rays[i].x_texture_offset = pnt.y % TILE_SIZE;
+	data->rays[i].tmp_hit_x = (t_coords){pnt.x, pnt.y};
+	return (sqrt(square(pnt.x - data->player.x) + square(pnt.y - data->player.y)));
 }
 
 double get_y_dist(t_data *data, int i, double angle)
 {
-	t_coords	point;
+	t_coords	pnt;
 	int		ray_direction;
 	double	tan_val;
 
@@ -81,21 +82,21 @@ double get_y_dist(t_data *data, int i, double angle)
 		return (-1);
 	ray_direction = sin(angle) >= 0;
 	tan_val = 1. / tan(angle);
-	point = (t_coords){data->player.x + get_next_tile(data->player.y, ray_direction) * tan_val, data->player.y + get_next_tile(data->player.y, ray_direction)};
+	pnt = (t_coords){data->player.x + next_tile(data->player.y, ray_direction) * tan_val, data->player.y + next_tile(data->player.y, ray_direction)};
 	ray_direction = (ray_direction * 1 + !ray_direction * -1);
-	while (!is_wall(point.x, point.y - TILE_SIZE * (ray_direction == -1), data))
+	while (!is_wall(pnt.x, pnt.y - TILE_SIZE * (ray_direction == -1), data))
 	{
-		point.x += (double)TILE_SIZE * tan_val * ray_direction;
-		point.y += TILE_SIZE * ray_direction;
+		pnt.x += (double)TILE_SIZE * tan_val * ray_direction;
+		pnt.y += TILE_SIZE * ray_direction;
 	}
-	if (is_out(point.x, point.y, data))
+	if (is_out(pnt.x, pnt.y, data))
 		return (-1);
-	data->rays[i].y_texture_offset = point.x % TILE_SIZE;
-	data->rays[i].tmp_hit_y = (t_coords){point.x, point.y};
-	return (sqrt(SQUARE(point.x - data->player.x) + SQUARE(point.y - data->player.y)));
+	data->rays[i].y_texture_offset = pnt.x % TILE_SIZE;
+	data->rays[i].tmp_hit_y = (t_coords){pnt.x, pnt.y};
+	return (sqrt(SQUARE(pnt.x - data->player.x) + SQUARE(pnt.y - data->player.y)));
 }
 
-int	get_next_tile(int val, int ray_direction)
+int	next_tile(int val, int ray_direction)
 {
 	if (ray_direction)
 		return ((TILE_SIZE - (val % TILE_SIZE)));

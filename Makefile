@@ -24,8 +24,6 @@ OBJ:= $(patsubst %.c, $(BIN_DIR)/%.o, $(notdir $(SRC)))
 vpath %.c $(SRC_DIRS)
 
 echo:
-	@echo src dirs: $(SRC_DIRS)
-	@echo objects: $(OBJ)
 
 all : $(NAME)
 

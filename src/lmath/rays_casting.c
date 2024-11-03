@@ -82,7 +82,8 @@ double get_y_dist(t_data *data, int i, double angle)
 		return (-1);
 	ray_direction = sin(angle) >= 0;
 	tan_val = 1. / tan(angle);
-	pnt = (t_coords){data->player.x + next_tile(data->player.y, ray_direction) * tan_val, data->player.y + next_tile(data->player.y, ray_direction)};
+	pnt.x = data->player.x + next_tile(data->player.x, ray_direction) * tan_val;
+	pnt.y = data->player.y + next_tile(data->player.x, ray_direction);
 	ray_direction = (ray_direction * 1 + !ray_direction * -1);
 	while (!is_wall(pnt.x, pnt.y - TILE_SIZE * (ray_direction == -1), data))
 	{

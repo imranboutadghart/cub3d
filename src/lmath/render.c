@@ -1,7 +1,8 @@
 #include "cube.h"
 
-static int	should_draw(t_ray ray, int i, double angle);
+static int	get_height(t_ray ray, double angle);
 static void	render_ray(t_data *data, int i);
+static int	get_color(t_data *data, t_ray ray, int j);
 
 void	draw_game(t_data *data)
 {
@@ -19,35 +20,45 @@ static void	render_ray(t_data *data, int i)
 {
 	t_ray	ray;
 	int		j;
-	int		is_sky;
-	static int colors[4] = {COLOR9, COLOR10, COLOR11, COLOR12};
 	int		color;
 
 	ray = data->rays[i];
 	j = -1;
-	is_sky = 1;
 	while (++j < WINDOW_HEIGHT)
 	{
-		if (should_draw(ray, j, data->player.dir))
-		{
-			color = colors[ray.hit_direction];
-			my_mlx_pixel_put(&data->mlx, i, j, color);
-			is_sky = 0;
-			continue ;
-		}
-		if (is_sky)
-			my_mlx_pixel_put(&data->mlx, i, j, data->ceil_color);
-		else
-			my_mlx_pixel_put(&data->mlx, i, j, data->floor_color);
+		color = get_color(data, ray, j);
+		my_mlx_pixel_put(&data->mlx, i, j, color);
+		continue ;
 	}	
 }
 
-static int	should_draw(t_ray ray, int i, double angle)
+static int	get_color(t_data *data, t_ray ray, int j)
 {
-	int	height;
+	double		height;
+	t_texture	*texture;
+	int			x;
+	int			y;
 
-	height = sin(10. / ray.dist) * WINDOW_HEIGHT;
-	// height = WINDOW_HEIGHT - (ray.dist * cos(fabs(ray.angle - angle))) / 2;
-	// height = height * (height > 6) + 6 * (height <= 0);
-	return (i > WINDOW_HEIGHT / 2 - height / 2 && i < WINDOW_HEIGHT / 2 + height / 2);
+	height = get_height(ray, data->player.dir - ray.angle);
+	if (j <= WINDOW_HEIGHT / 2 - height / 2)
+		return (data->ceil_color);
+	if (j >= WINDOW_HEIGHT / 2 + height / 2)
+		return (data->floor_color);
+	texture = data->textures[ray.hit_direction];
+	x = ray.texture_offset;
+	j = j - WINDOW_HEIGHT / 2 + height / 2;
+	y = j * TILE_SIZE / height;
+	return (my_mlx_pixel_get(texture, x, y));
+}
+
+static int	get_height(t_ray ray, double angle)
+{
+	double	height;
+	double	view;
+
+	view = ray.dist * tan(FOV / 2) * cos(angle);
+	if (!view)
+		return (0);
+	height = (double)TILE_SIZE * WINDOW_HEIGHT / view;
+	return (height);
 }

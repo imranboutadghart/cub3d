@@ -69,17 +69,9 @@ typedef struct s_texture
 	int		width;
 	int		height;
 	int		bpp;
-	int		line_length;
+	int		ll;
 	int		endian;
 }	t_texture;
-
-typedef struct s_texture_pack
-{
-	t_texture	*texture_e;
-	t_texture	*texture_w;
-	t_texture	*texture_s;
-	t_texture	*texture_n;
-}	t_texture_pack;
 
 typedef struct s_fcoords
 {
@@ -118,7 +110,7 @@ typedef struct s_ray
 typedef struct s_data
 {
 	char			**map;
-	t_texture_pack	textures;
+	t_texture		*textures[4];
 	t_mlx_data		mlx;
 	t_player		player;
 	int				cols;
@@ -165,6 +157,7 @@ void	limit_fps(int fps);
 
 // Rendering
 void	my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color);
+int		my_mlx_pixel_get(t_texture *data, int x, int y);
 int		draw_line(t_data *data, t_coords start, t_coords end, int color);
 int		draw_minimap(t_data *data);
 void	draw_game(t_data *data);

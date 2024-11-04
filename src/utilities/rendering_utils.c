@@ -34,6 +34,14 @@ void my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+int	my_mlx_pixel_get(t_texture *data, int x, int y)
+{
+	char *dst;
+
+	dst = data->addr + (y * data->ll + x * (data->bpp / 8));
+	return (*(unsigned int *)dst);
+}
+
 void	normalize_angle(double *angle)
 {
 	if (*angle >= PI * 2)

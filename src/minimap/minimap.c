@@ -15,7 +15,6 @@ void draw_ray_borders(t_data *data)
 	t_coords f = (t_coords){p.x + cos(data->player.dir - FOV /2) * MINIMAP_SCALE * TILE_SIZE / 2, p.y + sin(data->player.dir - FOV / 2) * MINIMAP_SCALE * TILE_SIZE / 2};
 	t_coords l = (t_coords){p.x + cos(data->player.dir + FOV /2) * MINIMAP_SCALE * TILE_SIZE / 2, p.y + sin(data->player.dir + FOV / 2) * MINIMAP_SCALE * TILE_SIZE / 2};
 
-	// printf("angle between borders: %f\n", 180 / PI * acos((SQUARE(calc(p.x, p.y, f.x, f.y)) + SQUARE(calc(p.x, p.y, l.x, l.y)) - calc(f.x, f.y, l.x, l.y)) / (2 * calc(p.x, p.y, f.x, f.y) * calc(p.x, p.y, l.x, l.y))));
 	draw_line(data, p, f, 0xFF0000);
 	draw_line(data, p, l, 0xFF0000);
 }
@@ -50,8 +49,6 @@ int draw_block(t_data *data, int x, int y, double size, int color)
 	int i;
 	int j;
 	double	y_size;
-	// int x_size = size * MINIMAP_SCALE * WINDOW_WIDTH / data->cols;
-	// int y_size = size * MINIMAP_SCALE * WINDOW_HEIGHT / data->lines;
 	t_coords	coords = scale_to_minimap(data, (t_coords){x, y});
 	size = size * MINIMAP_SCALE * WINDOW_WIDTH / data->cols;
 	y_size = size * WINDOW_HEIGHT / WINDOW_WIDTH;
@@ -62,7 +59,10 @@ int draw_block(t_data *data, int x, int y, double size, int color)
 		j = 0;
 		while (j < y_size)
 		{
-			my_mlx_pixel_put(&data->mlx, coords.x + i, coords.y + j, color);
+			if (!i || !j || i == size - 1 || j == y_size - 1)
+				my_mlx_pixel_put(&data->mlx, coords.x + i, coords.y + j, 0x000);
+			else
+				my_mlx_pixel_put(&data->mlx, coords.x + i, coords.y + j, color);
 			j++;
 		}
 		i++;
@@ -72,8 +72,6 @@ int draw_block(t_data *data, int x, int y, double size, int color)
 
 int	 draw_player(t_data *data)
 {
-	// printf("player coords before scaling: %d %d\n", data->player.x, data->player.y);
-	// printf("player coords after scaling: %d %d\n", player.x, player.y);
 	draw_block(data, data->player.x, data->player.y, 0.1, COLOR3);
 	return (0);
 }
@@ -81,21 +79,14 @@ int	 draw_player(t_data *data)
 int	 draw_rays(t_data *data)
 {
 	(void)data;
-	// t_coords	player = get_player_coords(data);
-	// printf("draw rays : player coords: %f %f\n", player.x, player.y);
 	int		i;
 
 	i = 0;
 	while (i < WINDOW_WIDTH)
 	{
-		// draw_line(data, (t_coords){((double)data->player.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->player.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-		// 			(t_coords){((double)data->rays[i].hit.x * WINDOW_WIDTH) / (TILE_SIZE * data->cols), ((double)data->rays[i].hit.y * WINDOW_HEIGHT) / (TILE_SIZE * data->lines)},
-		// 			COLOR8);
 		draw_line(data, scale_to_minimap(data, (t_coords){data->player.x, data->player.y}),
 					scale_to_minimap(data, (t_coords){data->rays[i].hit.x, data->rays[i].hit.y}),
 					(data->rays[i].hit_direction & 2) ? COLOR8 : COLOR6);
-		// printf("data %p : coords: %f %f\n", data, p_x * x_size, p_y * y_size);
-		// my_mlx_pixel_put(&data->mlx, p_x * x_size, p_y * y_size, 0x00FFFF);
 		++i;
 	}
 	return (0);

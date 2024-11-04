@@ -1,7 +1,7 @@
 #ifndef MINIMAP_H
 #define MINIMAP_H
 
-# define MINIMAP_SCALE 0.1
+# define MINIMAP_SCALE 0.3
 # define MINIMAP_WALL COLOR9
 # define MINIMAP_GRND COLOR10
 

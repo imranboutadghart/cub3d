@@ -5,28 +5,28 @@ static void			unload_texture(t_texture *texture, void *mlx);
 
 int init_textures(t_parsing_data data, t_data *out)
 {
-	out->textures.texture_e = load_texture(data.e_texture, out->mlx.mlx);
-	if (!out->textures.texture_e)
+	out->textures[0] = load_texture(data.e_texture, out->mlx.mlx);
+	if (!out->textures[0])
 		return (1);
-	out->textures.texture_w = load_texture(data.w_texture, out->mlx.mlx);
-	if (!out->textures.texture_w)
+	out->textures[1] = load_texture(data.w_texture, out->mlx.mlx);
+	if (!out->textures[1])
 	{
-		unload_texture(out->textures.texture_e, out->mlx.mlx);
-		return (1);
-	}
-	out->textures.texture_s = load_texture(data.s_texture, out->mlx.mlx);
-	if (!out->textures.texture_w)
-	{
-		unload_texture(out->textures.texture_e, out->mlx.mlx);
-		unload_texture(out->textures.texture_w, out->mlx.mlx);
+		unload_texture(out->textures[0], out->mlx.mlx);
 		return (1);
 	}
-	out->textures.texture_n = load_texture(data.n_texture, out->mlx.mlx);
-	if (!out->textures.texture_w)
+	out->textures[2] = load_texture(data.n_texture, out->mlx.mlx);
+	if (!out->textures[1])
 	{
-		unload_texture(out->textures.texture_e, out->mlx.mlx);
-		unload_texture(out->textures.texture_w, out->mlx.mlx);
-		unload_texture(out->textures.texture_s, out->mlx.mlx);
+		unload_texture(out->textures[0], out->mlx.mlx);
+		unload_texture(out->textures[1], out->mlx.mlx);
+		return (1);
+	}
+	out->textures[3] = load_texture(data.s_texture, out->mlx.mlx);
+	if (!out->textures[1])
+	{
+		unload_texture(out->textures[0], out->mlx.mlx);
+		unload_texture(out->textures[1], out->mlx.mlx);
+		unload_texture(out->textures[2], out->mlx.mlx);
 		return (1);
 	}
 	return (0);
@@ -34,10 +34,10 @@ int init_textures(t_parsing_data data, t_data *out)
 
 void destroy_textures(t_data *data)
 {
-	unload_texture(data->textures.texture_e, data->mlx.mlx);
-	unload_texture(data->textures.texture_w, data->mlx.mlx);
-	unload_texture(data->textures.texture_s, data->mlx.mlx);
-	unload_texture(data->textures.texture_n, data->mlx.mlx);
+	unload_texture(data->textures[0], data->mlx.mlx);
+	unload_texture(data->textures[1], data->mlx.mlx);
+	unload_texture(data->textures[2], data->mlx.mlx);
+	unload_texture(data->textures[3], data->mlx.mlx);
 }
 
 static t_texture	*load_texture(char *path, void *mlx)
@@ -53,7 +53,7 @@ static t_texture	*load_texture(char *path, void *mlx)
 		free(texture);
 		return (NULL);
 	}
-	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, &texture->line_length, &texture->endian);
+	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp, &texture->ll, &texture->endian);
 	if (!texture->addr)
 	{
 		mlx_destroy_image(mlx, texture->img);

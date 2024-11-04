@@ -1,5 +1,5 @@
 CC:=cc
-CFLAGS:= -Wextra -Wall -g #-Werror -g
+CFLAGS:= -Wextra -Wall -Werror
 NAME:= cube3d
 INCLUDE_DIR:=include
 BIN_DIR:=bin
@@ -7,12 +7,12 @@ SRC_DIRS= src $(patsubst %/, %, $(sort $(dir $(wildcard src/*/))))
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Darwin)
-CFLAGS += -Ofast
-LIB= -lmlx -framework OpenGL -framework AppKit
+	CFLAGS += -Ofast
+	LIB= -lmlx -framework OpenGL -framework AppKit
 endif
 ifeq ($(UNAME), Linux)
-CFLAGS += -O3
-LIB= -lXext -lX11 -lm -lbsd
+	CFLAGS += -O3
+	LIB= -lXext -lX11 -lm -lbsd
 endif
 
 INCLUDES:= $(wildcard $(INCLUDE_DIR)/*.h)

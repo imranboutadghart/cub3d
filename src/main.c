@@ -14,6 +14,5 @@ int main(int ac, char **av)
 	free_parsing_data(data);
 	if (ret)
 		return (1);
-	// run_game(&data);
 	destroy_data(&game_data);
 }

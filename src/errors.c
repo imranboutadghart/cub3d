@@ -25,7 +25,7 @@ int	verify_macros(void)
 		printf("Invalid TILE_SIZE\n");
 	else if (FOV < 0 || FOV > PI)
 		printf("Invalid FOV\n");
-	else if (MINIMAP_SCALE <= 0 || MINIMAP_SCALE > 1)
+	else if (MINIMAP_SCALE < 0 || MINIMAP_SCALE > 1)
 		printf("Invalid MINIMAP_SCALE\n");
 	else if (MINIMAP_WALL == MINIMAP_GRND)
 		printf("MINIMAP_WALL cannot equal MINIMAP_GRND\n");

@@ -24,6 +24,8 @@ int draw_minimap(t_data *data)
 	int x;
 	int y;
 
+	if (MINIMAP_SCALE < EPSILON)
+		return (1);
 	y = 0;
 	while (y < data->lines)
 	{

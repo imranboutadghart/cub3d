@@ -27,16 +27,20 @@ void	move_player(t_data *data, int x, int y)
 	double	angle;
 	int		x_offset;
 	int		y_offset;
+  int   x_modifier;
+  int   y_modifier;
 
 	// atan2(x, y) returns the angle between the x-axis and the point (x, y) 
 	angle = data->player.dir + atan2(y, x);
-	x_offset = (int)kill_precision(data->player.walk_speed * cos(angle));
-	y_offset = (int)kill_precision(data->player.walk_speed * sin(angle));
-	if (is_wall(data->player.x + x_offset, data->player.y + y_offset, data))
+	x_offset = (int)data->player.walk_speed * cos(angle);
+  x_modifier = (x_offset < 0) * -2 + (x_offset > 0) * 2;
+	y_offset = (int)data->player.walk_speed * sin(angle);
+  y_modifier = (y_offset < 0) * -2 + (y_offset > 0) * 2;
+	if (is_wall(data->player.x + x_offset + x_modifier, data->player.y + y_offset + y_modifier, data))
 	{
-		if (!is_wall(data->player.x + x_offset, data->player.y, data))
+		if (!is_wall(data->player.x + x_offset + x_modifier, data->player.y, data))
 			y_offset = 0;
-		else if (!is_wall(data->player.x, data->player.y + y_offset, data))
+		else if (!is_wall(data->player.x, data->player.y + y_offset + y_modifier, data))
 			x_offset = 0;
 		else
 			return ;

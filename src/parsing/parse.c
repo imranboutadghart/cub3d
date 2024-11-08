@@ -17,6 +17,7 @@ t_parsing_data	*parse(int ac, char **av)
 	data->n_texture = ft_strdup(TEXTURE_N);
 	data->f = 0x964B00;
 	data->c = 0x87CEEB;
+	// map to not be freed
 	data->map = get_map();
 	data->cols = MAP_WIDTH;
 	data->lines = MAP_HEIGHT;

@@ -25,7 +25,7 @@
 
 // initialization
 # define INIT_ROT_SPEED 1
-# define INIT_DIR 0
+# define INIT_DIR (-PI / 2)
 # define INIT_WALK_SPEED 5
 # define FPS 60 // 0 to not limit fps at all
 
@@ -168,7 +168,6 @@ void	draw_game(t_data *data);
 // 		Math
 double	square(double x);
 int		equal(t_coords a, t_coords b);
-float	kill_precision(float x);
 void	normalize_angle(double *angle);
 // 		Map
 int		is_out(int x, int y, t_data *data);

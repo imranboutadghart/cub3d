@@ -50,11 +50,6 @@ void	normalize_angle(double *angle)
 		*angle += PI * 2;
 }
 
-float	kill_precision(float x)
-{
-	return (round(x * 1000000) / 1000000);
-}
-
 long	get_time()
 {
 	time_t		now;

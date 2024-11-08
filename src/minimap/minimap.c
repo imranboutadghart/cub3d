@@ -15,6 +15,8 @@ int draw_minimap(t_data *data)
 	int x;
 	int y;
 
+	if (MINIMAP_SCALE < EPSILON)
+		return (1);
 	y = 0;
 	// these whiles to print the background of the map
 	while (y < data->lines)

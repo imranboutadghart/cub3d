@@ -59,6 +59,6 @@ static int	get_height(t_ray ray, double angle)
 	view = ray.dist * tan(FOV / 2) * cos(angle);
 	if (!view)
 		return (0);
-	height = (double)TILE_SIZE * WINDOW_HEIGHT / view;
+	height = (double)TILE_SIZE * WINDOW_HEIGHT / (view * 1.3);
 	return (height);
 }

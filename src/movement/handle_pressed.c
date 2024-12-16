@@ -36,7 +36,9 @@ void	move_player(t_data *data, int x, int y)
   x_modifier = (x_offset < 0) * -2 + (x_offset > 0) * 2;
 	y_offset = (int)data->player.walk_speed * sin(angle);
   y_modifier = (y_offset < 0) * -2 + (y_offset > 0) * 2;
-	if (is_wall(data->player.x + x_offset + x_modifier, data->player.y + y_offset + y_modifier, data))
+	if (is_wall(data->player.x + x_offset + x_modifier, data->player.y + y_offset + y_modifier, data) || 
+    is_wall(data->player.x + x_offset + x_modifier, data->player.y, data) || 
+    is_wall(data->player.x, data->player.y + y_offset + y_modifier, data))
 	{
 		if (!is_wall(data->player.x + x_offset + x_modifier, data->player.y, data))
 			y_offset = 0;
